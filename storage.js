@@ -5,3 +5,7 @@
 var AWS = require("aws-sdk");
 
 
+var storage = (function () {
+    var dynamodb = new AWS.DynamoDB({apiVersion: '2011-12-05'});
+
+});

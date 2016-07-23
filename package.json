@@ -4,7 +4,7 @@
   "description": "Alexa skill to retrieve travel information from Google Maps API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Jonathan Gonzales",
   "license": "MIT",
