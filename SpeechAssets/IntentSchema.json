@@ -4,33 +4,13 @@
         "intent": "GetDistanceIntent",
         "slots": [
         {
-            "name": "StoredAddress"
-            "type": "LIST_OF_ADDRESSES"
+            "name": "OriginAddress"
+            "type": "ADDRESSES"
         },
         {
-            "name": "OriginStreetName"
-            "type": "ORIGIN_STREET_NAME"
-        },
-        {
-            "name": "OriginStreetNumber"
-            "type": "ORIGIN_STREET_NUMBER"
-        },
-        {
-            "name": "OriginZipCode"
-            "type": "ORIGIN_ZIP_CODE"
-        },
-        {
-            "name": "DesStreetNumber"
-            "type": "DES_STREET_NUMBER"
-        },
-        {
-            "name": "DesStreetName"
-            "type": "DES_STREET_NAME"
-        },
-        { 
-            "name": "DesStreetZipCode"
-            "type": "DES_STREET_ZIPCODE"
-         }
+            "name": "DestinationAddress"
+            "type": "ADDRESSES"
+        }
       ]
     },
     {

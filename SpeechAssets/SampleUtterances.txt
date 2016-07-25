@@ -1,3 +1,2 @@
-GetDistanceIntent how far is {StoredAddress}
-GetDistanceIntent how long is the drive to {DesStreetNumber} {DesStreetName} {DesZipCode} from {StoredAddress}
-GetDistanceIntent how long is the drive to {DesStreetNumber} {DesStreetName} {DesZipCode} from {OriginStreetNumber} {OriginStreetName} {OriginZipCode}
+GetDistanceIntent how far is {DestinationAddress} from {OriginAddress}
+GetDistanceIntent how long does it take to get to {DestinationAddress} from {OriginAddress}

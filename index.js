@@ -9,7 +9,7 @@ var APIKEY = '&key=AIzaSyDtJ4alv_t14lQbvTENMhKNhjNNIpzI9rE'
 function AddressHelper() {
 }
 
-AddressHelper.prototype.getOriginAddress = function(originStreetNumber, originStreetName, originZipCode, desStreetNumber, desStreenName, desZipCode) {
+AddressHelper.prototype.getOriginAddress = function(originStreetNumber, originStreetName, originZipCode, desStreetNumber, desStreetName, desZipCode) {
     var options = {
         method: 'GET',
         uri: ENDPOINTORIGIN + originStreetNumber + originStreetName + originZipCode + ENDPOINTDESTINATION + desStreetNumber + desStreetName + desZipCode + APIKEY,
