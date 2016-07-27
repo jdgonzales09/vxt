@@ -1,22 +1,42 @@
 'use strict';
 
-var _ = require ('lodash');
-var rp = require ('request');
-var ENDPOINTORIGIN = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&';
-var ENDPOINTDESTINATION = '&destinations='
-var APIKEY = '&key=AIzaSyDtJ4alv_t14lQbvTENMhKNhjNNIpzI9rE'
+var storage = require('./storage'),
 
-function AddressHelper() {
-}
-
-AddressHelper.prototype.getOriginAddress = function(originStreetNumber, originStreetName, originZipCode, desStreetNumber, desStreetName, desZipCode) {
-    var options = {
-        method: 'GET',
-        uri: ENDPOINTORIGIN + originStreetNumber + originStreetName + originZipCode + ENDPOINTDESTINATION + desStreetNumber + desStreetName + desZipCode + APIKEY,
-        json: true
+var registerEventHandlers = function (launchRequest, session, reponse) {
+    eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+        skillContext.needMoreHelp = false;
     };
 
-    return requestPromise(options);
+    eventHandlers.onLaunch = function (launchRequest, session, response) {
+        var speechOutput = 'Where would you like to go today?',
+        response.ask(speechOutput)
+    };
 };
 
-module.exports = AddressHelper;
+var registerIntentHandlers = function (intentHandlers, skillContext) {
+    intentHandlers.getDistanceIntent = function (intent, session, response) {
+       var speechOutput,
+       var NewAddress = textHelper.getDestinationAddress(intent.slots.DestinationAddress.value);
+       
+       response.tell(speechOutput + NewAddress);
+    };
+
+
+    intentHandlers['AMAZON.StopIntent'] = function (intent, session, response) {
+        if (skillContext.needMoreHelper) {
+            response.tell('Okay. Whenever you\'re ready, you can start by giving me an address to where you want to go.');
+        } else {
+            response.tell('');
+        }
+    };
+
+    intentHandlers['AMAZON.CancelIntent'] = function (intent, session, response) {
+        if (skillContext.needMoreHelp) {
+            response.tell('Okay. Whenever you\'re ready, you can start by giving me an address to where you want to go.');
+        } else {
+            response.tell('');
+        }
+    };
+};
+
+
