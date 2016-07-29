@@ -1,24 +1,31 @@
 'use strict';
 
-var storage = require('./storage'),
+var AlexaSkill = require('./alexaskill');
+//var storage = require('./storage');
 
 var registerEventHandlers = function (launchRequest, session, reponse) {
     eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+        console.log("VXT Skill onSessionStarted requestId: " + sessionStartedRequest.requestId + ", sessionId: " + session.sessionId);
         skillContext.needMoreHelp = false;
     };
 
     eventHandlers.onLaunch = function (launchRequest, session, response) {
         var speechOutput = 'Where would you like to go today?',
+        console.log("VXT Skill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
         response.ask(speechOutput)
+    };
+
+    eventHandlers.onSessionEnded = function (launchRequest, session, response) {
+        console.log("onSessionEnded requestId: " + sessionEndedRequest.requestId + ", sessionId: " + session.session.Id)
     };
 };
 
 var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.getDistanceIntent = function (intent, session, response) {
-       var speechOutput,
-       var NewAddress = textHelper.getDestinationAddress(intent.slots.DestinationAddress.value);
-       
-       response.tell(speechOutput + NewAddress);
+       var speechOutput = "Ok you want to go to",
+       var cardTitle = "Velocity x Time",
+       var cardOutput = "Tell me an origin and destination address starting with the street number, then name, then zipcode.",
+       response.tellWithCard(speechOutput, cardTitle, cardOutput);
     };
 
 
@@ -38,5 +45,3 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         }
     };
 };
-
-
