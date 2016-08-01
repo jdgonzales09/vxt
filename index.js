@@ -1,47 +1,58 @@
 'use strict';
 
-var AlexaSkill = require('./alexaskill');
-//var storage = require('./storage');
+var APP_ID = 'arn:aws:lambda:us-east-1:156132025121:function:VxT';
+var AlexaSkill = require('./AlexaSkill');
+var storage = require('./storage');
 
-var registerEventHandlers = function (launchRequest, session, reponse) {
-    eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
-        console.log("VXT Skill onSessionStarted requestId: " + sessionStartedRequest.requestId + ", sessionId: " + session.sessionId);
-        skillContext.needMoreHelp = false;
-    };
-
-    eventHandlers.onLaunch = function (launchRequest, session, response) {
-        var speechOutput = 'Where would you like to go today?',
-        console.log("VXT Skill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
-        response.ask(speechOutput)
-    };
-
-    eventHandlers.onSessionEnded = function (launchRequest, session, response) {
-        console.log("onSessionEnded requestId: " + sessionEndedRequest.requestId + ", sessionId: " + session.session.Id)
-    };
+var VxTSkill = function() {
+    AlexaSkill.call(this, APP_ID);
 };
 
-var registerIntentHandlers = function (intentHandlers, skillContext) {
-    intentHandlers.getDistanceIntent = function (intent, session, response) {
-       var speechOutput = "Ok you want to go to",
-       var cardTitle = "Velocity x Time",
-       var cardOutput = "Tell me an origin and destination address starting with the street number, then name, then zipcode.",
-       response.tellWithCard(speechOutput, cardTitle, cardOutput);
-    };
+VxTSkill.prototype = Object.create(AlexaSkill.prototype);
+VxTSkill.prototype.constructor = VxTSkill;
 
+VxTSkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+    console.log("VxTSkill onSessionStarted requestId: " + sessionStartedRequest.requestId
+        + ", sessionId: " + session.sessionId);
+};
 
-    intentHandlers['AMAZON.StopIntent'] = function (intent, session, response) {
-        if (skillContext.needMoreHelper) {
-            response.tell('Okay. Whenever you\'re ready, you can start by giving me an address to where you want to go.');
-        } else {
-            response.tell('');
-        }
-    };
+VxTSkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
+    console.log("VxTSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+};
 
-    intentHandlers['AMAZON.CancelIntent'] = function (intent, session, response) {
-        if (skillContext.needMoreHelp) {
-            response.tell('Okay. Whenever you\'re ready, you can start by giving me an address to where you want to go.');
-        } else {
-            response.tell('');
-        }
-    };
+VxTSkill.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
+  console.log("onSessionEnded requestId: " + sessionEndedRequest.requestId + ", sessionId: " + session.session.Id)
+};
+
+VxTSkill.prototype.intentHandlers = {
+
+    "GetDistanceIntent": function (intent, session, response) {
+        handleGetDistanceIntentRequest(intent, session, response);
+    },
+
+    "AMAZON.StopIntent": function (intent, session, response) {
+        var speechOutput = {
+            speech: "Goodbye",
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
+        response.tell(speechOutput);
+    },
+
+    "AMAZON.CancelIntent": function (intent, session, response) {
+        var speechOutput = {
+                speech: "Goodbye",
+                type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
+        response.tell(speechOutput);
+    }
+};
+
+/* Make API call here */
+function handleGetDistanceIntentRequest(intent, session, response) {
+
+}
+
+    exports.handler = function (event, context) {
+    var skill = new VxTSkill();
+    skill.execute(event, context);
 };
