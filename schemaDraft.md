@@ -2,7 +2,7 @@
 
     Table Name: UsersAddresses
         Key Schema: [
-            { AttributeName: "UserId", KeyType: "HASH"},
+            { AttributeName: "UserId", KeyType: "HASH" },
         ],
         AttributeDefinitions: [
             { AttributeName: "UserId", AttributeType: "S" }
@@ -13,28 +13,23 @@
 
 UserId
 {
-    "SavedAdresses" : [
-        "label" : String,
-        "AddressStreetNumber" : String,
-        "AddressStreetName" : String,
-        "AddressZipCode" : String,
-        "createdON" : Date,
-        "createdAt" : Time
-    ]
-    "HomeAddress" : [
-        "HomeAddressStreetNumber" : String,
-        "HomeAddressStreetName" : String,
-        "HomeAddressZipCode" : String,
-        "createdON" : Date,
-        "createdAt" : Time
-    ]
-    "AddressHistory" : [
-        "HistoricalAddressStreetNumber" : String,
-        "HistoricalAddressStreetName" : String,
-        "HistoricalAddressZipCode" : String,
-        createdOn : Date,
-        createdAt : Time
+    "UsedAdresses" : [
+        "label" : S,
+        "AddressStreetNumber" : S,
+        "AddressStreetName" : S,
+        "AddressCity" : S,
+        "AddressState" : S,
+        "AddressZipCode" : S,
+        "api": {},
+        "apiURL": S,
+        "createdON" : S,
+        "lastUsed" : S,
+        "numberOfTimesUsed" : N
+    ],
+    "TravelTimes" : [
+
     ]
 }
 
 * Everything will get stored in Address History
+* Pull database entry from
