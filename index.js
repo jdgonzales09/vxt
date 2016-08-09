@@ -50,6 +50,9 @@ VxTSkill.prototype.intentHandlers = {
 /* Make API call here */
 function handleGetDistanceIntentRequest(intent, session, response) {
 
+    var data = ["Just", "Testing", "With", "An", "Array"]
+    currentAddress = new Addresses(session, data);
+    currentAddress.save 
 }
 
     exports.handler = function (event, context) {
