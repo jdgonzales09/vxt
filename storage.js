@@ -6,11 +6,9 @@ var AWS = require("aws-sdk");
 var storage = (function () {
     var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
-    /*
-     * The Game class stores all game states for the user
-     */
     function Addresses (session, data) {
         if (data) {
+           console.log("Addresses function data exists");
             this.data = data;
         } else {
             this.data = {
@@ -21,21 +19,17 @@ var storage = (function () {
     }
 
     Addresses.prototype = {
-        isEmptyScore: function () {
-            //check if any one had non-zero score,
-            //it can be used as an indication of whether the game has just started
-            var allEmpty = true;
-            var gameData = this.data;
-            gameData.players.forEach(function (player) {
-                if (gameData.scores[player] !== 0) {
-                    allEmpty = false;
-                }
-            });
-            return allEmpty;
-        },
+        // isEmptyData: function () {
+        //     var allEmpty = true;
+        //     var addressData = this.data;
+        //     addressData.user.forEach(function (player) {
+        //         if (addressData.scores[user] !== 0) {
+        //             allEmpty = false;
+        //         }
+        //     });
+        //     return allEmpty;
+        // },
         save: function (callback) {
-            //save the game states in the session,
-            //so next time we can save a read from dynamoDB
             this._session.attributes.currentAddress = this.data;
             dynamodb.putItem({
                 TableName: 'VxTUserData',
@@ -65,6 +59,7 @@ var storage = (function () {
                 callback(new Addresses(session, session.attributes.currentAddress));
                 return;
             }
+            console.log('session.user.userId: ' + session.user.userId);
             dynamodb.getItem({
                 TableName: 'VxTUserData',
                 Key: {
@@ -91,7 +86,7 @@ var storage = (function () {
                 }
             });
         },
-        newAddress: function (session) {
+        newAddresses: function (session) {
             return new Addresses(session);
         }
     };

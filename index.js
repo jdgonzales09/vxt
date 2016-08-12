@@ -1,23 +1,23 @@
 'use strict';
 
-var APP_ID = 'arn:aws:lambda:us-east-1:156132025121:function:VxT';
+var APP_ID = 'undefined';
 var AlexaSkill = require('./AlexaSkill');
 var storage = require('./storage');
 
 var VxTSkill = function() {
-    AlexaSkill.call(this, APP_ID);
+  AlexaSkill.call(this, APP_ID);
 };
 
 VxTSkill.prototype = Object.create(AlexaSkill.prototype);
 VxTSkill.prototype.constructor = VxTSkill;
 
 VxTSkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
-    console.log("VxTSkill onSessionStarted requestId: " + sessionStartedRequest.requestId
-        + ", sessionId: " + session.sessionId);
+  console.log("VxTSkill onSessionStarted requestId: " + sessionStartedRequest.requestId
+  + ", sessionId: " + session.sessionId);
 };
 
 VxTSkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
-    console.log("VxTSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+  console.log("VxTSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
 };
 
 VxTSkill.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
@@ -26,36 +26,39 @@ VxTSkill.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest,
 
 VxTSkill.prototype.intentHandlers = {
 
-    "GetDistanceIntent": function (intent, session, response) {
-        handleGetDistanceIntentRequest(intent, session, response);
-    },
+  "GetDistanceIntent": function (intent, session, response) {
+    handleGetDistanceIntentRequest(intent, session, response);
+  },
 
-    "AMAZON.StopIntent": function (intent, session, response) {
-        var speechOutput = {
-            speech: "Goodbye",
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT
-        };
-        response.tell(speechOutput);
-    },
+  "AMAZON.StopIntent": function (intent, session, response) {
+    var speechOutput = {
+      speech: "Goodbye",
+      type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    response.tell(speechOutput);
+  },
 
-    "AMAZON.CancelIntent": function (intent, session, response) {
-        var speechOutput = {
-                speech: "Goodbye",
-                type: AlexaSkill.speechOutputType.PLAIN_TEXT
-        };
-        response.tell(speechOutput);
-    }
+  "AMAZON.CancelIntent": function (intent, session, response) {
+    var speechOutput = {
+      speech: "Goodbye",
+      type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    response.tell(speechOutput);
+  }
 };
 
 /* Make API call here */
 function handleGetDistanceIntentRequest(intent, session, response) {
+  storage.loadAddresses(session, function(currentAddress) {
+    console.log(currentAddress);
 
-    var data = ["Just", "Testing", "With", "An", "Array"]
-    currentAddress = new Addresses(session, data);
-    currentAddress.save 
-}
+    currentAddress.save(function () {
+      response.tell("Your test was successfully saved");
+    });
+  });
+};
 
-    exports.handler = function (event, context) {
-    var skill = new VxTSkill();
-    skill.execute(event, context);
+exports.handler = function (event, context) {
+  var skill = new VxTSkill();
+  skill.execute(event, context);
 };
